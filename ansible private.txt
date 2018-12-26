@@ -1,0 +1,31 @@
+####Playbook for cloning a private git repository with Ansible--
+---
+hosts: all
+tasks:
+  - name: add github ssh key
+    copy: >
+      src=files/id_rsa.github
+      dest=/root/.ssh/id_rsa.github
+      owner=root
+      group=root
+      mode=0600
+  
+  - name: configure ssh to use ansible key for github.com
+    template: >
+      src=templates/ssh_config.j2
+      dest=/root/.ssh/config
+      owner=root
+      group=root
+      mode=0644
+      
+  - name: clone a private repository
+    git: >
+      repo=ssh://git@github.com/someone/example-repo.git
+      key_file=/root/.ssh/id_rsa.github
+      dest=/opt/example
+
+
+####Playbook for cloning a public  git repository with Ansible
+- git:
+    repo: 'https://foosball.example.org/path/to/repo.git'
+    dest: /srv/checkout
