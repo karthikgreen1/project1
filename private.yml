@@ -1,7 +1,7 @@
 ---
 - hosts: localhost
   tasks:
-  - name: clone a private repository
+  - name: clone a public repository
     git:
       repo: https://github.com/karthikgreen1/CSV_Sample.git
       dest: ./roles/basic
